@@ -1,84 +1,62 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="{{ env('SITE_AUTHOR') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Scripts -->
-    <script src="{{ asset('admin/js/app.js') }}" defer></script>
-
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+    <title>Admin Panel | @yield('title')</title>
     <!-- Styles -->
-    <link href="{{ asset('admin/css/app.css') }}" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ asset('admin\images\favicon.ico').env('ASSET_VERSION')}}">
+    <link href="{{ asset('admin\plugins\slick\slick.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('admin\plugins\slick\slick-theme.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('admin\plugins\switchery\switchery.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('admin\css\bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('admin\css\icons.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('admin\css\flag-icon.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('admin\css\style.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('admin\plugins\sweet-alert2\sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('admin\plugins\pnotify\css\pnotify.custom.min.css') }}" rel="stylesheet" type="text/css">
+    @yield('styles')
 </head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                        @if (Route::has('admin.login'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.login') }}">{{ __('Login') }}</a>
-                        </li>
-                        @endif
-
-                        @if (Route::has('admin.register'))
-                        <li class="nav-item">
-                            <a class="nav-link yes" href="{{ route('admin.register') }}">{{ __('Register') }}</a>
-                        </li>
-                        @endif
-                        @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                    @endguest
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <main class="py-4">
+<body class="vertical-layout">
+    <div id="containerbar">
+        @include('admin.sections.sidebar')
+        @include('admin.sections.header')
         @yield('content')
-    </main>
-</div>
+        @include('admin.sections.footer')
+    </div>
+    <!-- Js -->
+    <script type="text/javascript" src="{{ asset('admin\js\jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin\js\popper.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin\js\bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin\js\modernizr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin\js\detect.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin\js\jquery.slimscroll.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin\js\vertical-menu.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('admin\plugins\switchery\switchery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin\plugins\slick\slick.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin\plugins\sweet-alert2\sweetalert2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin\plugins\pnotify\js\pnotify.custom.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin\plugins\validatejs\validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin\js\core.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin\js\custom.js') }}"></script>
+    <!-- Core JS -->
+    <script type="text/javascript">
+        @if (session('status'))
+        new PNotify( {
+            text: '{{ session('status') }}', type: 'success'
+        });
+        @endif
+        @if (session('error'))
+        new PNotify( {
+            text: '{{ session('error') }}', type: 'danger'
+        });
+        @endif
+    </script>
+    @yield('scripts')
 </body>
 </html>

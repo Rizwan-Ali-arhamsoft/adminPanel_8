@@ -23,14 +23,16 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function(){
 		Route::post('/login','LoginController@login')->name('login.submit');
 		Route::post('/logout','LoginController@logout')->name('logout');
 		/*Admin Forgot Password Routes*/
-		Route::get('/password/reset','ForgotPasswordController@showAdminLinkRequestForm')->name('password.request');
-		Route::post('/password/email','ForgotPasswordController@sendAdminResetLinkEmail')->name('password.email');
+		Route::get('/password/reset','ForgotPasswordController@showLinkRequestForm')->name('password.request');
+		Route::post('/password/email','ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 		/*Admin Reset Password Routes*/
-		Route::get('/password/reset/{token}','ResetPasswordController@showAdminResetForm')->name('password.reset');
+		Route::get('/password/reset/{token}','ResetPasswordController@showResetForm')->name('password.reset');
 		Route::post('/password/reset','ResetPasswordController@reset')->name('password.update');
 	});
-	// Route::group(['middleware' => ['auth:admin']], function ($router) {
-	// 	$router->get('/dashboard','DashboardController@index')->name('dashboard');
-	// });
+	Route::group(['middleware' => ['auth:admin']], function ($router) {
+		$router->get('/dashboard','DashboardController@index')->name('dashboard');
+		$router->get('/site-settings','SiteSettingsController@index')->name('site_settings.index');
+		$router->post('/site-settings-save','SiteSettingsController@store')->name('site_settings.store');
+	});
 	
 });

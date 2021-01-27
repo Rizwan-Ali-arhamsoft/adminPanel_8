@@ -36,7 +36,7 @@ class ForgotPasswordController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function showAdminLinkRequestForm()
+    public function showLinkRequestForm()
     {
         return view('admin.auth.passwords.email');
     }
@@ -47,7 +47,7 @@ class ForgotPasswordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    public function sendAdminResetLinkEmail(Request $request)
+    public function sendResetLinkEmail(Request $request)
     {
         $this->validateEmail($request);
 

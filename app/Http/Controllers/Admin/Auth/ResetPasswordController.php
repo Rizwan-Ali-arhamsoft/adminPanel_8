@@ -28,7 +28,7 @@ class ResetPasswordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showAdminResetForm(Request $request)
+    public function showResetForm(Request $request)
     {
         $token = $request->route()->parameter('token');
         

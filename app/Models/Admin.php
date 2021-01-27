@@ -15,7 +15,7 @@ use Illuminate\Notifications\Notifiable;
         protected $guard = 'admin';
 
         protected $fillable = [
-            'name', 'email', 'password',
+            'first_name','last_name','company_name','email', 'password',
         ];
 
         protected $hidden = [
